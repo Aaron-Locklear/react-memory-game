@@ -1,0 +1,9 @@
+*{
+  width: 200px;
+  height: 100px;
+  background-color: lightgray;
+  border: 1px solid gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
