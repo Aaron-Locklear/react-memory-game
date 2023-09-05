@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
+import GameBoard from './GameBoard/index.jsx';
 
 function App() {
-  console.log("hello");
   
   return(<>
-    <p>Hello World</p>
+    <GameBoard></GameBoard>
   </>);
 }
 
