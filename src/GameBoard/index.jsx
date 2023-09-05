@@ -4,6 +4,7 @@ import Card from '../Card/index.jsx'
 
 export default function GameBoard(){
 
+  const [gameOver, setGameOver] = useState(false);
   const [cards, setCards] = useState([
     {id:1, display:1, chosen:false},
     {id:2, display:2, chosen:false},
@@ -19,13 +20,49 @@ export default function GameBoard(){
     {id:12, display:12, chosen:false},
   ]);
 
-  function handleCardClick(card){
-    let gameOver = false;
+  // Shuffle cards when the game is over
+  useEffect(() => {
+    if (gameOver) {
+      handleShuffle();
+      setCards(prevCards => {
+        const resetCards = prevCards.map(card => ({ ...card, chosen: false }));
+        return resetCards;
+      });
+      setGameOver(false);
+    }
+  }, [gameOver]);
+
+  // Initial shuffle when the component mounts
+  useEffect(() => {
+    handleShuffle();
+  }, []);
+
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  function handleShuffle() {
+    const shuffledCards = shuffleArray([...cards]);
+    setCards(shuffledCards);
+  }
+
+  function handleEndGame(){
+    console.log("Game Over");
+    setGameOver(true);
+  }
+
+  function handleCardClick(card) {
+    let gameOverDetected = false;
+  
     const updatedCards = cards.map((c) => {
       if (c.id === card.id) {
         if (c.chosen) {
-          console.log("Game Over");
-          gameOver = true;
+          gameOverDetected = true;
           return { ...c, chosen: false };
         } else {
           return { ...c, chosen: true };
@@ -33,12 +70,13 @@ export default function GameBoard(){
       }
       return c;
     });
-
-    if (gameOver) {
-      setCards(updatedCards.map(card => ({ ...card, chosen: false })));
-      gameOver == false;
-    } else {
-      setCards(updatedCards);
+  
+    setCards(updatedCards);
+  
+    if (gameOverDetected) {
+      handleEndGame();
+    } else if (gameOver) {
+      setGameOver(false);
     }
   }
 
