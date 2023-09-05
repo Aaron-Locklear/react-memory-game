@@ -6,18 +6,18 @@ export default function GameBoard(){
 
   const [gameOver, setGameOver] = useState(false);
   const [cards, setCards] = useState([
-    {id:1, display:1, chosen:false},
-    {id:2, display:2, chosen:false},
-    {id:3, display:3, chosen:false},
-    {id:4, display:4, chosen:false},
-    {id:5, display:5, chosen:false},
-    {id:6, display:6, chosen:false},
-    {id:7, display:7, chosen:false},
-    {id:8, display:8, chosen:false},
-    {id:9, display:9, chosen:false},
-    {id:10, display:10, chosen:false},
-    {id:11, display:11, chosen:false},
-    {id:12, display:12, chosen:false},
+    {id:1, pokemon:"ditto", chosen:false},
+    {id:2, pokemon:"ditto", chosen:false},
+    {id:3, pokemon:"ditto", chosen:false},
+    {id:4, pokemon:"ditto", chosen:false},
+    {id:5, pokemon:"ditto", chosen:false},
+    {id:6, pokemon:"ditto", chosen:false},
+    {id:7, pokemon:"ditto", chosen:false},
+    {id:8, pokemon:"ditto", chosen:false},
+    {id:9, pokemon:"ditto", chosen:false},
+    {id:10, pokemon:"ditto", chosen:false},
+    {id:11, pokemon:"ditto", chosen:false},
+    {id:12, pokemon:"ditto", chosen:false},
   ]);
 
   // Shuffle cards when the game is over
@@ -84,7 +84,7 @@ export default function GameBoard(){
     {cards.map((card)=>(
       <Card 
         key = {card.id}
-        display = {card.display}
+        pokemon = {card.pokemon}
         onClick = {() => handleCardClick(card)}
       />
     ))}
