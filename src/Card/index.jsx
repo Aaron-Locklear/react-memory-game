@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import "./index.css"
 
-export default function Card(){
+export default function Card(props){
   return(
-    <p>Testing</p>
+    <button>{props.display}</button>
   );
 }
