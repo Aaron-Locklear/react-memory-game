@@ -3,13 +3,8 @@ import './App.css'
 import GameBoard from './GameBoard/index.jsx';
 
 function App() {
-  
-  function handleGameOver(){
-    console.log("Game Over");
-  }
-
   return(<>
-    <GameBoard nItems={20} handleGameOver={handleGameOver}></GameBoard>
+    <GameBoard nItems={20}></GameBoard>
   </>);
 }
 
