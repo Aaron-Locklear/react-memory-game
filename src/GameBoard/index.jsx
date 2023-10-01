@@ -6,11 +6,17 @@ const POSSIBLE_POKEMON = ["pikachu","charizard","bulbasaur","squirtle","jigglypu
 
 export default function GameBoard({nItems}){
   
-  let shuffledPokemon = shuffleArray(POSSIBLE_POKEMON);
+  shuffleArray(POSSIBLE_POKEMON);
+  console.log(POSSIBLE_POKEMON.length)
 
   const [gameOver, setGameOver] = useState(false);
   const [gameCards, setGameCards] = useState([]);
   const [highestScore, setHighestScore] = useState(0);
+
+  useEffect(() => {
+    setHighestScore(0);
+    setGameCards(constructCards());
+  }, [nItems])
 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -66,6 +72,8 @@ export default function GameBoard({nItems}){
         }}
       />
     ))}
+    <br/>
+    <p>Highest Score : {highestScore}</p>
   </section>)
 }
 
