@@ -2,41 +2,9 @@ import React, { useState, useEffect } from 'react'
 import './index.css'
 import Card from '../Card/index.jsx'
 
-export default function GameBoard(){
+export default function GameBoard({nItems, handleGameOver}){
 
   const [gameOver, setGameOver] = useState(false);
-  const [cards, setCards] = useState([
-    {id:1, pokemon:"ditto", chosen:false},
-    {id:2, pokemon:"ditto", chosen:false},
-    {id:3, pokemon:"ditto", chosen:false},
-    {id:4, pokemon:"ditto", chosen:false},
-    {id:5, pokemon:"ditto", chosen:false},
-    {id:6, pokemon:"ditto", chosen:false},
-    {id:7, pokemon:"ditto", chosen:false},
-    {id:8, pokemon:"ditto", chosen:false},
-    {id:9, pokemon:"ditto", chosen:false},
-    {id:10, pokemon:"ditto", chosen:false},
-    {id:11, pokemon:"ditto", chosen:false},
-    {id:12, pokemon:"ditto", chosen:false},
-  ]);
-
-  // Shuffle cards when the game is over
-  useEffect(() => {
-    if (gameOver) {
-      handleShuffle();
-      setCards(prevCards => {
-        const resetCards = prevCards.map(card => ({ ...card, chosen: false }));
-        return resetCards;
-      });
-      setGameOver(false);
-    }
-  }, [gameOver]);
-
-  // Initial shuffle when the component mounts
-  useEffect(() => {
-    handleShuffle();
-  }, []);
-
 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -46,47 +14,42 @@ export default function GameBoard(){
     return array;
   }
 
-  function handleShuffle() {
-    const shuffledCards = shuffleArray([...cards]);
-    setCards(shuffledCards);
-  }
+  let possiblePokemon = shuffleArray(["pikachu","charizard","bulbasaur","squirtle","jigglypuff","mewtwo","meowth","eevee","snorlax","mew","lugia","ho-oh","celebi","gengar","machamp","alakazam","gyarados","aerodactyl","arcanine","lapras","blastoise","venusaur","tyranitar","dragonite","ampharos","scizor","heracross","houndoom","blaziken","gardevoir","salamence","metagross","milotic","absol","rayquaza","lucario","garchomp","togekiss","rotom","infernape","chandelure","excadrill","greninja","aegislash","mimikyu","decidueye","zeraora","dragapult","corviknight","cinderace"]);
+  let constructedCards = [];
 
-  function handleEndGame(){
-    console.log("Game Over");
-    setGameOver(true);
-  }
-
-  function handleCardClick(card) {
-    let gameOverDetected = false;
-  
-    const updatedCards = cards.map((c) => {
-      if (c.id === card.id) {
-        if (c.chosen) {
-          gameOverDetected = true;
-          return { ...c, chosen: false };
-        } else {
-          return { ...c, chosen: true };
-        }
-      }
-      return c;
-    });
-  
-    setCards(updatedCards);
-  
-    if (gameOverDetected) {
-      handleEndGame();
-    } else if (gameOver) {
-      setGameOver(false);
+  function constructCards(){
+    for(let i = 0; i < nItems; i++){
+      constructedCards.push({id:i, pokemon:possiblePokemon[i], chosen:false})
     }
-  }
+  };
+  constructCards();
+
+  const [cards, setCards] = useState(constructedCards);
+
+  useEffect(()=>{
+    constructCards = []
+    setCards(constructCards())
+    }
+    ,[gameOver,]);
 
   return(<section>
     {cards.map((card)=>(
       <Card 
         key = {card.id}
         pokemon = {card.pokemon}
-        onClick = {() => handleCardClick(card)}
+        onClick = {() => {
+          const newCards = cards.map(c => {
+            if(c.id === card.id){
+              c.chosen === true ? handleGameOver() : true;
+              return { ...c, chosen: true };
+            }else{
+              return c;
+            }
+          });
+          setCards(shuffleArray([...newCards]));
+        }}
       />
     ))}
   </section>)
 }
+

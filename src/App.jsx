@@ -4,8 +4,12 @@ import GameBoard from './GameBoard/index.jsx';
 
 function App() {
   
+  function handleGameOver(){
+    console.log("Game Over");
+  }
+
   return(<>
-    <GameBoard></GameBoard>
+    <GameBoard nItems={20} handleGameOver={handleGameOver}></GameBoard>
   </>);
 }
 
